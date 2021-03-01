@@ -28,3 +28,9 @@
       port: 22
       state: started
     loop: "{{ ec2.instances }}"
+
+- name: Install webserver
+   host: webserver
+   roles:
+     - httpd
+     - tomcat
