@@ -1,18 +1,19 @@
 ---
 - name : Installing httpd server
-    package:
-      name: "httpd"
-      state: present
-    become: yes
+  package:
+    name: "httpd"
+    state: present
+  become: yes
 
 - name: Copy webpage
-    copy:
-      src: home.html
-      dest: /var/www/html
+  copy:
+    src: home.html
+    dest: /var/www/html
+  become: yes
 
 - name: Starting httpd service
-    service:
-      name: "httpd"
-      state: started
-      enabled: yes
-    become: yes
+  service:
+    name: "httpd"
+    state: started
+    enabled: yes
+  become: yes

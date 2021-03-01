@@ -30,7 +30,7 @@
     loop: "{{ ec2.instances }}"
 
 - name: Install webserver
-   host: webserver
-   roles:
-     - httpd
-     - tomcat
+  hosts: webserver
+  roles:
+    - httpd
+    - tomcat
