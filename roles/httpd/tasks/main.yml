@@ -1,0 +1,19 @@
+- name: Install webserver
+  hosts: webserver
+  gather_facts: no
+  tasks:
+  - name : Installing httpd server
+    package:
+      name: "httpd"
+      state: present
+    become: yes
+  - name: Copy webpage
+    copy:
+      src: home.html
+      dest: /var/www/html
+  - name: Starting httpd service
+    service:
+      name: "httpd"
+      state: started
+      enabled: yes
+    become: yes

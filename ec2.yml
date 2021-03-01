@@ -1,0 +1,30 @@
+- name: EC2 Launcher
+  hosts: localhost
+  tasks:
+  - name: Launch EC2
+    ec2:
+      key_name: EC2 Tutorial
+      instance_type: t2.micro
+      region: eu-west-1
+      image: ami-096f43ef67d75e998
+      wait: yes
+      group: DemoEC2SG
+      count: 1
+      vpc_subnet_id: subnet-0d23743fdc34c227d
+      assign_public_ip: yes
+      instance_tags:
+        Name: webserver
+    register: ec2
+
+  - name: Add Instance to hostgroup
+    add_host:
+      hostname: "{{  item.public_ip }}"
+      groupname: webserver
+    loop: "{{ ec2.instances }}"
+
+  - name: Wait for SSH to Comeup
+    wait_for:
+      host: "{{ item.public_dns_name }}"
+      port: 22
+      state: started
+    loop: "{{ ec2.instances }}"
